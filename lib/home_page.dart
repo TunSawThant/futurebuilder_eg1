@@ -9,7 +9,7 @@ import 'detailsPage.dart';
 
 class HomePage extends StatefulWidget {
   String  title;
-  HomePage(this.title);
+  HomePage({this.title});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -35,6 +35,7 @@ Future<List<User>> getlist() async{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green,
         title: Text(widget.title),
         centerTitle: true,
       ),
@@ -52,15 +53,27 @@ Future<List<User>> getlist() async{
           return ListView.builder(
             itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context,int index){
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(snapshot.data[index].picture),
+              return Container(
+                color: Colors.yellow,
+                padding: EdgeInsets.only(left:4.0,right: 4.0),
+                child: Card(
+                  elevation: 5.0,
+                  color: Colors.lightBlue,
+                  shape:RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)
+                  ) ,
+
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(snapshot.data[index].picture),
+                    ),
+                    title: Text("${snapshot.data[index].name}"),
+                    subtitle: Text("${snapshot.data[index].email}"),
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsPage(snapshot.data[index])));
+                    },
+                  ),
                 ),
-                title: Text("${snapshot.data[index].name}"),
-                subtitle: Text("${snapshot.data[index].email}"),
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsPage(snapshot.data[index])));
-                },
               );
               }
           );
